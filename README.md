@@ -1,2 +1,2 @@
 # SpringBootStudy
-Study
+Study record
