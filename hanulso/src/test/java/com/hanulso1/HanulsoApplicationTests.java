@@ -1,4 +1,4 @@
-package com.hanulso;
+package com.hanulso1;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

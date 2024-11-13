@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h3>basic 호출</h3>
+	<form method="post" enctype="multipart/form-data" action="/sample/ex08">
+		<input type="file" name="files" multiple="multiple">
+		<button type="submit">전송</button>
+	</form>
 </body>
 </html>

@@ -7,6 +7,12 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h3>basic »£√‚</h3>
+	<h2>${sampleDto}</h2>
+	<h2>${dto }</h2>
+	<h2>page : ${page }</h2>
+	<h2>name : ${dto.name }</h2>
+	<h2>age : ${dto.age }</h2>
+	<h2>regdate : ${dto.regdate }</h2>
+	
 </body>
 </html>
