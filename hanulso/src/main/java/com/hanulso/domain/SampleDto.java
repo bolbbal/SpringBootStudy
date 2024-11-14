@@ -1,4 +1,4 @@
-package com.hanulso.domain.copy;
+package com.hanulso.domain;
 
 import java.util.Date;
 

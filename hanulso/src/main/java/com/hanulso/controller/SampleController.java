@@ -1,4 +1,4 @@
-package com.hanulso.controller.copy;
+package com.hanulso.controller;
 
 import java.util.ArrayList;
 
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.hanulso1.domain.SampleDto;
+import com.hanulso.domain.SampleDto;
 
 import jakarta.servlet.annotation.MultipartConfig;
 import lombok.extern.log4j.Log4j2;
@@ -74,7 +74,7 @@ public class SampleController {
 	//String Boot
 	//Model
 	@GetMapping("/ex05")
-	public void getEx05(SampleDto dto, int page, Model model) {
+	public void getEx05(SampleDto  dto, int page, Model model) {
 		
 		model.addAttribute("dto", dto);
 		model.addAttribute("page", page);
