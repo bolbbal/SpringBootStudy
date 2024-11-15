@@ -8,5 +8,33 @@
 		</selectKey>
 		insert into tbl_board (bno, title, content, writer) values (#{bno}, #{title}, #{content}, #{writer})
 	</insert>
+	
+	<select id="getList" resultType="com.hanulso.domain.BoardVo">
+		select * from tbl_board order by bno desc
+	</select>
+	
+	<select id="getBoardCount" resultType="Integer">
+		select count(*) as count from tbl_board
+	</select>
+	
+	<select id="getDetail" resultType="com.hanulso.domain.BoardVo">
+		select * from tbl_board where bno = #{bno}
+	</select>
+	
+	<select id="getNext" resultType="com.hanulso.domain.BoardVo">
+		<![CDATA[
+		select * from (select * from tbl_board order by bno asc) where bno > #{bno} and rownum = 1
+		]]>
+	</select>
 
+	<select id="getPrev" resultType="com.hanulso.domain.BoardVo">
+		<![CDATA[
+		select * from (select * from tbl_board order by bno desc) where bno < #{bno} and rownum = 1
+		]]>
+	</select>
+	
+	<delete id="deleteBoard">
+		delete from tbl_board where bno = #{bno}
+	</delete>
+	
 </mapper>

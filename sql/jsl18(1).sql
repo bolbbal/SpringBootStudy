@@ -18,3 +18,5 @@ create table tbl_attach (
     constraint tbl_attach_pk primary key (uuid),
     constraint tbl_attach_fk foreign key (bno) references tbl_board (bno)
 );
+
+select * from tbl_board;

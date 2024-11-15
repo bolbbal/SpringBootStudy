@@ -1,6 +1,6 @@
  <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/header.jsp"%>
+<%@ include file="../header.jsp"%>
 <!-- sub contents -->
 	<div class="sub_title">
 		<h2>포트폴리오</h2>
@@ -29,7 +29,7 @@
 		</div><!-- container end -->
 	</div>
 
-	<c:set var="num" value="${count - (page.cri.pageNum-1)*5 }"/>
+	<c:set var="num" value="${count}"/>
 	<div class="container">
 	  <div class="search_wrap">
 		<div class="record_group">
@@ -54,18 +54,18 @@
 					<span class="date"><em><fmt:formatDate value="${regdate }" pattern="dd"/></em><fmt:formatDate value="${regdate }" pattern="yyyy.MM"/></span>
 					<div class="text_wrap">
 						<div class="img_wrap" style="position: relative;">
-							<c:if test="${list.imgurl != null}">
+							<%-- <c:if test="${list.imgurl != null}">
 								<a href="/port/download.do?file=${list.imgurl }" style="position: absolute;top: 0%; right: 0%; background:#ccc; padding:12px 16px;">Download</a>
 							</c:if>
-							<img src="${pageContext.request.contextPath}/upload/${list.imgurl != null ? list.imgurl : 'noImage.png' }" alt="">
+							<img src="${pageContext.request.contextPath}/upload/${list.imgurl != null ? list.imgurl : 'noImage.png' }" alt=""> --%>
 						</div>
 						<span class="info">
-							<span class="blue_text">No. ${num}</span>
+							<span class="blue_text">No. ${num }</span>
 							<i class="bar"></i>
-							<i class="fa fa-eye"></i> ${list.viewcount }
+							<i class="fa fa-eye"></i> 5
 						</span>
 						<p class="title">
-							<a href="/port/view.do?idx=${list.idx }">${list.title}</a>
+							<a href="/port/view.do?bno=${list.bno }">${list.title}</a>
 						</p>
 						<span class="text">
 							${list.content }
@@ -74,7 +74,7 @@
 					</div>
 					
 				</li>
-				<c:set var="num" value="${num-1 }"/>
+				<c:set var="num" value="${num - 1 }"/>
 			</c:forEach>
 		</ul>
 		<div class="paging">
@@ -106,4 +106,4 @@
 			});
 		});
 	</script>
-<%@ include file="/footer.jsp"%>
+<%@ include file="../footer.jsp"%>

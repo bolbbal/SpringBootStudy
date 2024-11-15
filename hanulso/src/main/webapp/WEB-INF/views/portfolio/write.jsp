@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file = "/header.jsp"%>
+<%@ include file = "../header.jsp"%>
 <!-- sub contents -->
 	<div class="sub_title">
 		<h2>포트폴리오</h2>
@@ -98,4 +98,4 @@
 			});
 		});
 	</script>
-<%@ include file = "/footer.jsp"%>
+<%@ include file = "../footer.jsp"%>

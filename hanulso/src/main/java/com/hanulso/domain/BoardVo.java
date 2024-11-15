@@ -1,6 +1,6 @@
 package com.hanulso.domain;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import lombok.Data;
@@ -12,8 +12,8 @@ public class BoardVo {
 	private String title;
 	private String content;
 	private String writer;
-	private Date regdate;
-	private Date updatedate;
+	private LocalDate regdate;
+	private LocalDate updatedate;
 	
 	private List<BoardAttachVo> attachList;
 }

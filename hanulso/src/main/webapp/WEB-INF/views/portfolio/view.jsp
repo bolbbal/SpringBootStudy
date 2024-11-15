@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file = "/header.jsp"%>
+<%@ include file = "../header.jsp"%>
 <!-- sub contents -->
 	<div class="sub_title">
 		<h2>포트폴리오</h2>
@@ -32,33 +32,53 @@
 	<div class="container">
 		<div class="board_view">
 			<h2>${view.title }</h2>
-			<p class="info"><span class="user">${view.writer }</span> | ${view.regdate } | <i class="fa fa-eye"></i> ${view.viewcount }</p>
+			<p class="info"><span class="user">${view.writer }</span> | ${view.regdate } | <i class="fa fa-eye"></i> <%-- ${view.viewcount } --%></p>
 			<div class="board_body">
 				<p>${view.content }</p>
-				<img src="${pageContext.request.contextPath}/upload/${view.imgurl}" alt="">
+				<%-- <img src="${pageContext.request.contextPath}/upload/${view.imgurl}" alt=""> --%>
 			</div>
 			<div class="prev_next">
-				<a href="" class="btn_prev"><i class="fa fa-angle-left"></i>
-				<span class="prev_wrap">
-					<strong>이전글</strong><span>이전글제목표시</span>
-				</span>
-				</a>
+				<c:if test="${prev != null }">
+					<a href="/port/view.do?bno=${prev.bno }" class="btn_prev"><i class="fa fa-angle-left"></i>
+					<span class="prev_wrap">
+						<strong>이전글</strong><span>${prev.title }</span>
+					</span>
+					</a>
+				</c:if>
+				<c:if test="${prev eq null }">
+					<a href="/port/view.do?bno=${view.bno }" class="btn_prev"><i class="fa fa-angle-left"></i>
+					<span class="prev_wrap">
+						<strong>이전글</strong><span>이전 글이 없습니다.</span>
+					</span>
+					</a>
+				</c:if>
 				<div class="btn_3wrap">
 					<a href="/port/list.do">목록</a> 
-					<a href="/port/modify.do?idx=${view.idx}">수정</a> 
-					<a href="/port/delete.do?idx=${view.idx}" onClick="return confirm('삭제하시겠어요?')">삭제</a>
+					<a href="/port/modify.do?bno=${view.bno}">수정</a> 
+					<a href="/port/delete.do?bno=${view.bno}" onClick="return confirm('삭제하시겠어요?')">삭제</a>
 				</div>
-				<a href="" class="btn_next">
-				<span class="next_wrap">
-					<strong>다음글</strong><span>다음글제목표시</span>
-				</span>
-				<i class="fa fa-angle-right"></i></a>
+				<c:if test="${next != null }">
+					<a href="/port/view.do?bno=${next.bno }" class="btn_next">
+					<span class="prev_wrap">
+						<strong>다음글</strong><span>${next.title }</span>
+					</span>
+					<i class="fa fa-angle-right"></i>
+					</a>
+				</c:if>
+				<c:if test="${next eq null }">
+					<a href="/port/view.do?bno=${view.bno }" class="btn_next">
+					<span class="prev_wrap">
+						<strong>다음글</strong><span>다음 글이 없습니다.</span>
+					</span>
+					<i class="fa fa-angle-right"></i>
+					</a>
+				</c:if>
 			</div>
 		</div>
 	</div>
 	
 	   <!-- comment -->
-        <div class="container">
+        <%-- <div class="container">
            <div style="border-top:1px solid #ccc;">
            <p style="font-size: 22px; font-weight: bold; padding: 20px 0;">
               Comments: "${replyCount}"
@@ -76,7 +96,7 @@
                   </c:forEach>
                </ul>
             </div>
-         </div>
+         </div> --%>
 
 	<!-- end contents -->
 	
@@ -84,7 +104,7 @@
 	 function cmtWrite(){ //댓글등록 
          //포트폴리오 번호, 글쓴 사람의  번호, 글쓴내용
          
-         let pidx = "<c:out value='${view.idx}'/>"; //jsp에있는 view속성에 있는 idx를 java script에 저장하는 법
+         let pidx = "<c:out value='${view.bno}'/>"; //jsp에있는 view속성에 있는 idx를 java script에 저장하는 법
          let writer ="${sessionScope.login}";
          let cmtContent =$(".cmt_area").val();
          
@@ -117,9 +137,8 @@
                alert("통신에러");
             }
          })
-      }
-
-		
+      } 
+	 
 		$(function() {
 			$(".location  .dropdown > a").on("click",function(e) {
 				e.preventDefault();
@@ -132,4 +151,4 @@
 			});
 		});
 	</script>
-<%@ include file = "/footer.jsp"%>
+<%@ include file = "../footer.jsp"%>
