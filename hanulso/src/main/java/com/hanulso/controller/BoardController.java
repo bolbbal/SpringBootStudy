@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hanulso.domain.BoardVo;
 import com.hanulso.service.BoardService;
+import com.hanulso.util.Criteria;
+import com.hanulso.util.PageVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -32,11 +35,41 @@ public class BoardController {
 		return "redirect:/port/list.do";
 	}
 	
+//	@GetMapping("/list.do")
+//	public String listBoard(Model model) {
+//		List<BoardVo> list = service.getList();
+//		Integer count = service.getBoardCount();
+//		
+//		model.addAttribute("list", list);
+//		model.addAttribute("count", count);
+//		
+//		return "/portfolio/list";
+//	}
+	
 	@GetMapping("/list.do")
-	public String listBoard(Model model) {
-		List<BoardVo> list = service.getList();
-		Integer count = service.getBoardCount();
+	public String listBoard(Criteria cri, Model model) {
 		
+		List<BoardVo> list = service.getListPaging(cri);
+		Integer count = 0;
+		
+		if(cri.getPageNum() == null) {			
+			cri.setPageNum(1);
+		}
+		if(cri.getAmount() == null) {
+			cri.setAmount(10);
+		}
+		
+		
+		if(cri.getType() != null) {
+			
+			count = service.getBoardCountPaging(cri);
+			
+		} else if (cri.getType() == null) {
+			
+			count = service.getBoardCount();
+		}
+		
+		model.addAttribute("page", new PageVo(cri, count));
 		model.addAttribute("list", list);
 		model.addAttribute("count", count);
 		
@@ -57,12 +90,34 @@ public class BoardController {
 		return "/portfolio/view";
 	}
 	
-	@GetMapping("/delete.do")
-	public String deleteBoard(Long bno) {
+	@GetMapping("/modify.do")
+	public String modifyView(Long bno, Model model) {
 		
-		service.deleteBoard(bno);
+		model.addAttribute("board", service.getDetail(bno));
+		
+		return "/portfolio/modify";
+	}
+	
+	@PostMapping("/modify.do")
+	public String modifyBoard(BoardVo board) {
+		
+		service.updateBoard(board);
 		
 		return "redirect:/port/list.do";
+	}
+	
+	@GetMapping("/delete.do")
+	public String deleteBoard(Long bno, RedirectAttributes rttr) { //RedirectAttributes : 일회성 속성 지정
+		
+		if(service.deleteBoard(bno) == true) {
+			
+			rttr.addFlashAttribute("msg", "삭제완료");
+			return "redirect:/port/list.do";
+			
+		} else {
+			rttr.addFlashAttribute("msg", "삭제실패");
+			return "redirect:/port/list.do";
+		}
 	}
 	
 }

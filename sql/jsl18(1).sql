@@ -20,3 +20,25 @@ create table tbl_attach (
 );
 
 select * from tbl_board;
+
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(117.41)');
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(223.62)');
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(117.41)');
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(223.62)');
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(117.41)');
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(223.62)');
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(117.41)');
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(223.62)');
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(117.41)');
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(223.62)');
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(117.41)');
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(223.62)');
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(117.41)');
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(223.62)');
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(117.41)');
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(223.62)');
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(117.41)');
+insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(223.62)');
+commit;
+
+select count(*) as count from tbl_board;

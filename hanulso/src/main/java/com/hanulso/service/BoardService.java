@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hanulso.domain.BoardVo;
 import com.hanulso.mapper.BoardMapper;
+import com.hanulso.util.Criteria;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,34 +23,47 @@ public class BoardService {
 		mapper.insertSelectKey(board);
 	}
 	
-	@Transactional
 	public List<BoardVo> getList() {
 		return mapper.getList();
 	}
 	
-	@Transactional
-	public Integer getBoardCount() {
+	public List<BoardVo> getListPaging(Criteria cri) {
+		return mapper.getListPaging(cri);
+	}
+	
+	public int getBoardCount() {
 		return mapper.getBoardCount();
 	}
 	
-	@Transactional
+	public int getBoardCountPaging(Criteria cri) {
+		return mapper.getBoardCountPaging(cri);
+	}
+	
 	public BoardVo getDetail(Long bno) {
 		return mapper.getDetail(bno);
 	}
 	
-	@Transactional
 	public BoardVo getNext(Long bno) {
 		return mapper.getNext(bno);
 	}
 	
-	@Transactional
 	public BoardVo getPrev(Long bno) {
 		return mapper.getPrev(bno);
 	}
 	
-	@Transactional
-	public void deleteBoard(Long bno) {
-		mapper.deleteBoard(bno);
+	public void updateBoard(BoardVo board) {
+		mapper.updateBoard(board);
+	}
+	
+	public boolean deleteBoard(Long bno) {
+		
+		boolean result = false;
+		
+		if (mapper.deleteBoard(bno) > 0) {
+			result = true;
+		}
+		
+		return result;
 	}
 	
 }

@@ -29,23 +29,25 @@
 		</div><!-- container end -->
 	</div>
 
-	<c:set var="num" value="${count}"/>
+	
 	<div class="container">
 	  <div class="search_wrap">
 		<div class="record_group">
 			<p>총게시글<span>${count}</span>건</p>
 		</div>
 		<div class="search_group">
-			<form name="myform" action="">
+			<form name="myform" method="get" action="/port/list.do">
 				<select name="type" class="select">
-					<option value="title">제목</option>
-					<option value="content">내용</option>
+					<option value="title" ${page.cri.type.equals('title')?'selected':'' }>제목</option>
+					<option value="content" ${page.cri.type.equals('content')?'selected':'' }>내용</option>
+					<option value="writer" ${page.cri.type.equals('writer')?'selected':'' }>글쓴이</option>
 				</select>
-				<input type="text" name="search" class="search_word">
+				<input type="text" name="keyword" class="search_word" value="${page.cri.keyword}">
 				<button class="btn_search"><i class="fa fa-search"></i><span class="sr-only">검색버튼</span></button>
 			</form>
 		</div>
 	  </div> <!-- search end -->
+	  <c:set var="num" value="${count - (page.cri.pageNum - 1) * 10}"/>
 	  <div class="bord_list">
 		<ul class="basic_board">
 			<c:forEach var="list" items="${list }">
@@ -78,15 +80,21 @@
 			</c:forEach>
 		</ul>
 		<div class="paging">
-			<a href=""><i class="fa  fa-angle-double-left"></i></a>
-			<a href=""><i class="fa fa-angle-left"></i></a>
-			<a href="" class="active">1</a>
-			<a href="">2</a>
-			<a href="">3</a>
-			<a href="">4</a>
-			<a href="">5</a>
-			<a href=""><i class="fa fa-angle-right"></i></a>
-			<a href=""><i class="fa  fa-angle-double-right"></i></a>
+			<c:if test="${page.prev }">
+				<a href="?pageNum=1"<c:if test="${page.cri!=null?'&type=${page.cri.type }&keyword=${page.cri.keyword}':''}"></c:if>><i class="fa  fa-angle-double-left"></i></a>
+			</c:if>
+			<c:if test="${page.cri.pageNum!=1 }">
+				<a href="?pageNum=${page.cri.pageNum-1}&type=${page.cri.type}&keyword=${page.cri.keyword}"><i class="fa fa-angle-left"></i></a>
+			</c:if>
+			<c:forEach var="pageNum" begin="${page.startPage }" end="${page.endPage }">
+				<a href="?pageNum=${pageNum }&type=${page.cri.type}&keyword=${page.cri.keyword}" class="${page.cri.pageNum==pageNum?'active':''}">${pageNum}</a>
+			</c:forEach>
+			<c:if test="${page.cri.pageNum!=page.endPage}">
+				<a href="?pageNum=${page.cri.pageNum+1 }&type=${page.cri.type}&keyword=${page.cri.keyword}"><i class="fa fa-angle-right"></i></a>
+			</c:if>
+			<c:if test="${page.next }">
+				<a href="?pageNum=${page.realEnd}&type=${page.cri.type}&keyword=${page.cri.keyword}"><i class="fa  fa-angle-double-right"></i></a>
+			</c:if>
 			<a href="/port/write.do" class="btn_write">글쓰기</a>
 		</div>
 	  </div>
