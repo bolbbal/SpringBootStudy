@@ -51,11 +51,15 @@
 					</tr>
 					<tr>
 						<th>내용</th>
-						<td><textarea name="content"></textarea></td>
+						<td><textarea name="content" ></textarea></td>
+					</tr>
+					<tr>
+						<th>대표이미지</th>
+						<td><input type="file" name="filename" id="filename"></td>
 					</tr>
 					<tr>
 						<th>첨부</th>
-						<td><input type="file" name="imgurl"></td>
+						<td><input type="file" name="uploadFile" multiple></td>
 					</tr>
 				</tbody>
 			</table>
@@ -70,18 +74,36 @@
 	</div>
 	<!-- end contents -->
 	<script>
+	
+		$("#filename").on("change", function() {
+			if($("#filename").val() != "") {
+				var ext = $("#filename").val().split('.').pop().toLowerCase();
+				if($.inArray(ext, ['gif', 'jpg', 'jpeg', 'png', 'JPG']) == -1) {
+					alert("이미지만 첨부 가능");
+					$("#filename").val("");
+					return false;
+				}
+			}
+		})
+	
 		function check() {
 			
+			if(portfolio.writer.value=="") {
+				alert("작성자 입력");
+				portfolio.writer.focus();
+				return false;
+			}
 			if(portfolio.title.value=="") {
-				alert("제목을 입력");
+				alert("제목 입력");
 				portfolio.title.focus();
 				return false;
 			}
 			if(portfolio.content.value=="") {
-				alert("내용을 입력");
+				alert("내용 입력");
 				portfolio.content.focus();
 				return false;
 			}
+			
 			return true;
 		}
 	</script>

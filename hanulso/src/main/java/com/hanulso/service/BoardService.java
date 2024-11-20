@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hanulso.domain.BoardAttachVo;
 import com.hanulso.domain.BoardVo;
+import com.hanulso.mapper.BoardAttachMapper;
 import com.hanulso.mapper.BoardMapper;
 import com.hanulso.util.Criteria;
 
@@ -17,14 +19,24 @@ import lombok.RequiredArgsConstructor;
 public class BoardService {
 
 	private final BoardMapper mapper;
+	private final BoardAttachMapper attachMapper;
 	
 	@Transactional
 	public void register(BoardVo board) {
 		mapper.insertSelectKey(board);
+		if(board.getAttachList() == null || board.getAttachList().size() <= 0) {
+			return;
+		}
+		
+		board.getAttachList().forEach(attach -> {
+			attach.setBno(board.getBno());
+			attachMapper.insert(attach);
+		});
+		
 	}
 	
-	public List<BoardVo> getList() {
-		return mapper.getList();
+	public List<BoardVo> getList(Criteria cri) {
+		return mapper.getList(cri);
 	}
 	
 	public List<BoardVo> getListPaging(Criteria cri) {

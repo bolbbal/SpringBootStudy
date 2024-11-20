@@ -46,27 +46,30 @@ public class BoardController {
 //		return "/portfolio/list";
 //	}
 	
+	//받은 값을 사용하지 않고 넘겨주는 용도로만 쓸 때는 매개변수로 (@ModelAttribute("속성명") 변수타입 변수명) 을 쓸 수 있다.
+	
 	@GetMapping("/list.do")
 	public String listBoard(Criteria cri, Model model) {
 		
-		List<BoardVo> list = service.getListPaging(cri);
+		List<BoardVo> list = null;
 		Integer count = 0;
 		
 		if(cri.getPageNum() == null) {			
 			cri.setPageNum(1);
 		}
 		if(cri.getAmount() == null) {
-			cri.setAmount(10);
+			cri.setAmount(5);
 		}
 		
-		
-		if(cri.getType() != null) {
+		if(cri.getType() == null) {
 			
-			count = service.getBoardCountPaging(cri);
-			
-		} else if (cri.getType() == null) {
-			
+			list = service.getList(cri);
 			count = service.getBoardCount();
+			
+		} else if (cri.getType() != null) {
+			
+			list = service.getListPaging(cri);
+			count = service.getBoardCountPaging(cri);
 		}
 		
 		model.addAttribute("page", new PageVo(cri, count));

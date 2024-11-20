@@ -1,6 +1,10 @@
 package com.hanulso.controller;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -113,9 +117,74 @@ public class SampleController {
 	
 	@PostMapping("/ex08")
 	public void getEx08(ArrayList<MultipartFile> files) {
+		
+		String uploadFolder = "C:/upload";
+		
 		files.forEach(file -> { //lamda
+			
 			System.out.println("name : " + file.getOriginalFilename());
 			System.out.println("size : " + file.getSize());
+			
+			File saveFile = new File(uploadFolder, file.getOriginalFilename());
+			
+			try {
+				file.transferTo(saveFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		});
+	}
+	
+	@GetMapping("/ajax")
+	public String getAjax() {
+		return "/sample/ajaxForm";
+	}
+	
+	@PostMapping("/ajax")
+	public ResponseEntity<String> getAjaxForm(ArrayList<MultipartFile> uploadFile) {
+		
+		String uploadFolder = "C:/upload";
+		
+		File uploadPath = new File(uploadFolder, getFolder());
+		
+		if(uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+		
+		uploadFile.forEach(file -> { //lamda
+			
+			System.out.println("name : " + file.getOriginalFilename());
+			System.out.println("size : " + file.getSize());
+			String uploadlFileName = file.getOriginalFilename();
+			UUID uuid = UUID.randomUUID();
+			
+			uploadlFileName = uuid.toString()+"_"+uploadlFileName;
+			
+			File saveFile = new File(uploadPath, uploadlFileName);
+			
+			try {
+				file.transferTo(saveFile);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		});
+		
+		String msg = "{\"msg\":\"전송 완료\"}";
+		HttpHeaders header = new HttpHeaders();
+		header.add("Content-type", "application/json;charset=utf-8");
+		
+		return new ResponseEntity<>(msg, header, HttpStatus.OK);
+	}
+	
+	public String getFolder() {
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		Date date = new Date();
+		
+		String str = sdf.format(date);
+		
+		return str.replace("-", File.separator); //운영체제에 맞는 파일 구분자로 치환
 	}
 }

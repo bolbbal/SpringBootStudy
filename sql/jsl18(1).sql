@@ -42,3 +42,16 @@ insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextva
 commit;
 
 select count(*) as count from tbl_board;
+
+select 
+				* 
+		from 
+				(select 
+					/*+ index_desc (tbl_board tbl_board_pk) */ 
+					rownum rn, bno, title, content, writer, regdate, updatedate 
+				from 
+					tbl_board  
+				where 
+					rownum <= 1 * 5
+				)
+		where rn > (1 - 1) * 5 ;

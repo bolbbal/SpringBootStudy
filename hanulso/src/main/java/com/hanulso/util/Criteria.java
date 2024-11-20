@@ -2,7 +2,7 @@ package com.hanulso.util;
 
 public class Criteria {
 	private Integer pageNum; //페이지 번호
-	private Integer amount = 10; //1페이지에 출력할 레코드 개수
+	private Integer amount; //1페이지에 출력할 레코드 개수
 	private String type; //검색조건 title, content
 	private String keyword; //검색 키워드
 	

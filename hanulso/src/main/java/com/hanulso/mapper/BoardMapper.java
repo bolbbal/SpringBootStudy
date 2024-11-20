@@ -12,7 +12,7 @@ public interface BoardMapper {
 	
 	public Integer insertSelectKey(BoardVo board);
 	
-	public List<BoardVo> getList();
+	public List<BoardVo> getList(Criteria cri);
 	public List<BoardVo> getListPaging(Criteria cri);
 	public int getBoardCount();
 	public int getBoardCountPaging(Criteria cri);

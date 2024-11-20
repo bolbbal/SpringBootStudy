@@ -13,8 +13,8 @@ public class PageVo {
 		
 		this.cri = cri;
 		this.total = total;
-		this.endPage = (int) Math.ceil(cri.getPageNum()/10.0) * 10;
-		this.startPage = endPage - 9;
+		this.endPage = (int) Math.ceil(cri.getPageNum()/10.0) * 5;
+		this.startPage = endPage - 4;
 		
 		this.realEnd = (int) (Math.ceil((total*1.0) / cri.getAmount()));
 		

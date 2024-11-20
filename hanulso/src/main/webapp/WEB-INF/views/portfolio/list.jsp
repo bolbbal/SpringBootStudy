@@ -47,7 +47,7 @@
 			</form>
 		</div>
 	  </div> <!-- search end -->
-	  <c:set var="num" value="${count - (page.cri.pageNum - 1) * 10}"/>
+	  <c:set var="num" value="${count - (page.cri.pageNum - 1) * 5}"/>
 	  <div class="bord_list">
 		<ul class="basic_board">
 			<c:forEach var="list" items="${list }">
@@ -81,19 +81,19 @@
 		</ul>
 		<div class="paging">
 			<c:if test="${page.prev }">
-				<a href="?pageNum=1"<c:if test="${page.cri!=null?'&type=${page.cri.type }&keyword=${page.cri.keyword}':''}"></c:if>><i class="fa  fa-angle-double-left"></i></a>
+				<a href="?pageNum=1<c:if test="${page.cri.type != null}">?&type=${page.cri.type }&keyword=${page.cri.keyword}</c:if>"><i class="fa  fa-angle-double-left"></i></a>
 			</c:if>
 			<c:if test="${page.cri.pageNum!=1 }">
-				<a href="?pageNum=${page.cri.pageNum-1}&type=${page.cri.type}&keyword=${page.cri.keyword}"><i class="fa fa-angle-left"></i></a>
+				<a href="?pageNum=${page.cri.pageNum-1}<c:if test="${page.cri.type != null}">?&type=${page.cri.type }&keyword=${page.cri.keyword}</c:if>"><i class="fa fa-angle-left"></i></a>
 			</c:if>
 			<c:forEach var="pageNum" begin="${page.startPage }" end="${page.endPage }">
-				<a href="?pageNum=${pageNum }&type=${page.cri.type}&keyword=${page.cri.keyword}" class="${page.cri.pageNum==pageNum?'active':''}">${pageNum}</a>
+				<a href="?pageNum=${pageNum }<c:if test="${page.cri.type != null}">?&type=${page.cri.type }&keyword=${page.cri.keyword}</c:if>" class="${page.cri.pageNum==pageNum?'active':''}">${pageNum}</a>
 			</c:forEach>
 			<c:if test="${page.cri.pageNum!=page.endPage}">
-				<a href="?pageNum=${page.cri.pageNum+1 }&type=${page.cri.type}&keyword=${page.cri.keyword}"><i class="fa fa-angle-right"></i></a>
+				<a href="?pageNum=${page.cri.pageNum+1 }<c:if test="${page.cri.type != null}">?&type=${page.cri.type }&keyword=${page.cri.keyword}</c:if>"><i class="fa fa-angle-right"></i></a>
 			</c:if>
 			<c:if test="${page.next }">
-				<a href="?pageNum=${page.realEnd}&type=${page.cri.type}&keyword=${page.cri.keyword}"><i class="fa  fa-angle-double-right"></i></a>
+				<a href="?pageNum=${page.realEnd}<c:if test="${page.cri.type != null}">?&type=${page.cri.type }&keyword=${page.cri.keyword}</c:if>"><i class="fa  fa-angle-double-right"></i></a>
 			</c:if>
 			<a href="/port/write.do" class="btn_write">글쓰기</a>
 		</div>
