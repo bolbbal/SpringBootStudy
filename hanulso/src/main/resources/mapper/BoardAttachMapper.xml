@@ -5,5 +5,8 @@
 	<insert id="insert">
 		insert into tbl_attach (uuid, uploadpath, filename, uploadfile, bno) values (#{uuid}, #{uploadpath}, #{filename}, #{uploadfile}, #{bno})
 	</insert>
-
+	
+	<select id="findByBno" resultType="com.hanulso.domain.BoardAttachVo">
+		select * from tbl_attach where bno = #{bno}
+	</select>
 </mapper>

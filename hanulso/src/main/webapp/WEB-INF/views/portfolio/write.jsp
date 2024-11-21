@@ -54,10 +54,6 @@
 						<td><textarea name="content" ></textarea></td>
 					</tr>
 					<tr>
-						<th>대표이미지</th>
-						<td><input type="file" name="filename" id="filename"></td>
-					</tr>
-					<tr>
 						<th>첨부</th>
 						<td><input type="file" name="uploadFile" multiple></td>
 					</tr>

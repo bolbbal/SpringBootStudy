@@ -51,15 +51,23 @@
 	  <div class="bord_list">
 		<ul class="basic_board">
 			<c:forEach var="list" items="${list }">
+				
 				<fmt:parseDate var="regdate" value="${list.regdate }" pattern="yyyy-MM-dd"/>
 				<li>
 					<span class="date"><em><fmt:formatDate value="${regdate }" pattern="dd"/></em><fmt:formatDate value="${regdate }" pattern="yyyy.MM"/></span>
 					<div class="text_wrap">
 						<div class="img_wrap" style="position: relative;">
-							<%-- <c:if test="${list.imgurl != null}">
-								<a href="/port/download.do?file=${list.imgurl }" style="position: absolute;top: 0%; right: 0%; background:#ccc; padding:12px 16px;">Download</a>
-							</c:if>
-							<img src="${pageContext.request.contextPath}/upload/${list.imgurl != null ? list.imgurl : 'noImage.png' }" alt=""> --%>
+							<c:set var="img" value="${list.attachList[0]}"/>
+							<img src="${not empty img.filename ? 'C:upload/' + img.uploadpath + '/' + img.uuid + '_' + img.filename : 'C:upload' + img.noImage}" alt="">
+							<c:choose>
+								<c:when test="${!list.attachList[0].filename.isEmpty()}">
+									<c:set var="img" value="${list.attachList[0]}"/>
+									<img src="/photo/${img.uploadpath}/${img.uuid}_${img.filename}" alt="">
+								</c:when>
+								<c:otherwise>
+									<img src="/photo${img.noImage}" alt="">
+								</c:otherwise>
+							</c:choose>
 						</div>
 						<span class="info">
 							<span class="blue_text">No. ${num }</span>
