@@ -3,7 +3,7 @@ package com.hanulso.domain;
 import lombok.Data;
 
 @Data
-public class BoardAttachVo {
+public class PresidentVo {
 
 	private String uuid;
 	private String uploadpath;
@@ -12,4 +12,5 @@ public class BoardAttachVo {
 	private char filetype;
 
 	private long bno;
+
 }

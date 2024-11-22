@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hanulso.domain.BoardAttachVo;
 import com.hanulso.domain.BoardVo;
+import com.hanulso.domain.PresidentVo;
 import com.hanulso.service.BoardService;
 import com.hanulso.util.Criteria;
 import com.hanulso.util.FileUpload;
@@ -37,7 +38,9 @@ public class BoardController {
 	public String saveBoard(BoardVo board, @RequestParam("uploadFile") MultipartFile[] uploadFile) {
 
 		if (uploadFile[0].getSize() != 0) {
+			PresidentVo president = fileUpload.uploadPresident(uploadFile);
 			List<BoardAttachVo> list = fileUpload.uploadFiles(uploadFile);
+			board.setPresident(president);
 			board.setAttachList(list);
 		}
 

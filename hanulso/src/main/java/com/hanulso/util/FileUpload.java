@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hanulso.domain.BoardAttachVo;
+import com.hanulso.domain.PresidentVo;
 
 @Component
 public class FileUpload {
@@ -54,7 +55,7 @@ public class FileUpload {
 			uploadFilesname = uuid.toString() + "_" + uploadFilesname;
 
 			File saveFilename = new File(uploadPath, uploadFilesname);
-
+			System.out.println(saveFilename);
 			try {
 
 				multipartFile.transferTo(saveFilename);
@@ -72,6 +73,45 @@ public class FileUpload {
 		}
 
 		return list;
+	}
+
+	public PresidentVo uploadPresident(@RequestParam("uploadFile") MultipartFile[] uploadFile) {
+
+		String uploadFolderPath = getFolder();
+
+		File uploadPath = new File(uploadFolder, uploadFolderPath);
+
+		if (uploadPath.exists() == false) {
+			uploadPath.mkdirs();
+		}
+
+		MultipartFile presidentFile = uploadFile[0];
+
+		UUID uuid = UUID.randomUUID();
+
+		PresidentVo president = new PresidentVo();
+
+		String presidentImg = presidentFile.getOriginalFilename();
+
+		presidentImg = uuid.toString() + "_" + presidentImg;
+
+		File savePresident = new File(uploadPath, presidentImg);
+
+		try {
+
+			presidentFile.transferTo(savePresident);
+
+			president.setFilename(presidentFile.getOriginalFilename());
+			president.setUploadfile(savePresident.toString());
+			president.setUuid(uuid.toString());
+			president.setUploadpath(uploadFolderPath);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return president;
+
 	}
 
 }

@@ -18,9 +18,22 @@ create table tbl_attach (
     constraint tbl_attach_pk primary key (uuid),
     constraint tbl_attach_fk foreign key (bno) references tbl_board (bno)
 );
+create table president_img (
+    uuid varchar2(100) not null,
+    uploadpath varchar2(200) not null,
+    filename varchar2(100) not null,
+    uploadfile varchar2(100) not null,
+    filetype char(1) default 'I',
+    bno number(10),
+    constraint president_pk primary key (uuid),
+    constraint president_fk foreign key (bno) references tbl_board (bno) on delete CASCADE
+);
 
-select * from tbl_board;
-
+alter table tbl_attach add president varchar2(100);
+alter table tbl_attach drop constraint tbl_attach_fk;
+alter table tbl_attach add constraint tbl_attach_fk foreign key (bno) REFERENCES tbl_board (bno) on delete CASCADE;
+select * from tbl_attach;
+update tbl_attach set president = 'sin2.jpeg' where bno = 133;
 insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(117.41)');
 insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(223.62)');
 insert into tbl_board (bno, title, content, writer) values (board_bno_seq.nextval, '¿ì¹Î±Ô', '°°Àº ¾Ç¼º Æä±î¸¦ Ä£±¸·Î µÖµµ ±¦ÂúÀ»±î¿ä?', '¤·¤·(117.41)');
@@ -55,3 +68,5 @@ select
 					rownum <= 1 * 5
 				)
 		where rn > (1 - 1) * 5 ;
+        
+select * from tbl_attach where bno = 143 and president = filename;

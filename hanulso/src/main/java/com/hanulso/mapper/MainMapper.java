@@ -5,15 +5,13 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.hanulso.domain.BoardAttachVo;
-import com.hanulso.domain.PresidentVo;
+import com.hanulso.domain.BoardVo;
 
 @Mapper
-public interface BoardAttachMapper {
+public interface MainMapper {
 
-	public void insert(BoardAttachVo attach);
+	public List<BoardVo> getList();
 
 	public List<BoardAttachVo> findByBno(Long bno);
-
-	public PresidentVo getPresident(Long bno);
 
 }

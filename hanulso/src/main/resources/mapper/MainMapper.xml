@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanulso.mapper.MainMapper">
+	
+	<select id="getList" resultType="com.hanulso.domain.BoardVo">
+		<![CDATA[
+		select * from (select * from tbl_board order by bno desc) where rownum < 4 
+		]]>
+	</select>
+	
+	<select id="findByBno" resultType="com.hanulso.domain.BoardAttachVo">
+		select * from tbl_attach where bno = #{bno}
+	</select>
+	
+</mapper>

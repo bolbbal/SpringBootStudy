@@ -25,8 +25,8 @@
 		<ul class="news_list">
 			<c:forEach var="main" items="${mainList }">
 				<li>
-					<a href="/port/view.do?idx=${main.idx }">
-						<img src="/upload/${main.imgurl}" alt="식품경진대회 우수상 사진" class="w100">
+					<a href="/port/view.do?bno=${main.bno }">
+						<img src="/photo/${main.attachList[0].uploadpath}/${main.attachList[0].uuid}_${main.attachList[0].filename}" alt="식품경진대회 우수상 사진" class="w100">
 						<strong>${main.title }</strong>
 						<p>${main.content }</p>
 						<span>${main.regdate }</span>
