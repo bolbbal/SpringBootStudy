@@ -54,6 +54,10 @@
 						<td><textarea name="content" ></textarea></td>
 					</tr>
 					<tr>
+						<th>대표이미지</th>
+						<td><input type="file" name="president"></td>
+					</tr>
+					<tr>
 						<th>첨부</th>
 						<td><input type="file" name="uploadFile" multiple></td>
 					</tr>
@@ -71,12 +75,23 @@
 	<!-- end contents -->
 	<script>
 	
-		$("#filename").on("change", function() {
-			if($("#filename").val() != "") {
-				var ext = $("#filename").val().split('.').pop().toLowerCase();
+	$("#president").on("change", function() {
+		if($("#president").val() != "") {
+			var ext = $("#president").val().split('.').pop().toLowerCase();
+			if($.inArray(ext, ['gif', 'jpg', 'jpeg', 'png', 'JPG']) == -1) {
+				alert("이미지만 첨부 가능");
+				$("#president").val("");
+				return false;
+			}
+		}
+	})
+	
+		$("#uploadFile").on("change", function() {
+			if($("#uploadFile").val() != "") {
+				var ext = $("#uploadFile").val().split('.').pop().toLowerCase();
 				if($.inArray(ext, ['gif', 'jpg', 'jpeg', 'png', 'JPG']) == -1) {
 					alert("이미지만 첨부 가능");
-					$("#filename").val("");
+					$("#uploadFile").val("");
 					return false;
 				}
 			}

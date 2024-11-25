@@ -9,11 +9,9 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hanulso.domain.BoardAttachVo;
-import com.hanulso.domain.PresidentVo;
 
 @Component
 public class FileUpload {
@@ -32,7 +30,7 @@ public class FileUpload {
 		return str.replace("-", File.separator);
 	}
 
-	public List<BoardAttachVo> uploadFiles(@RequestParam("uploadFile") MultipartFile[] uploadFile) {
+	public List<BoardAttachVo> uploadFiles(MultipartFile president, MultipartFile[] uploadFile) {
 
 		List<BoardAttachVo> list = new ArrayList<>();
 
@@ -44,74 +42,63 @@ public class FileUpload {
 			uploadPath.mkdirs();
 		}
 
-		for (MultipartFile multipartFile : uploadFile) {
-
-			BoardAttachVo attach = new BoardAttachVo();
-
-			String uploadFilesname = multipartFile.getOriginalFilename();
-
-			UUID uuid = UUID.randomUUID();
-
-			uploadFilesname = uuid.toString() + "_" + uploadFilesname;
-
-			File saveFilename = new File(uploadPath, uploadFilesname);
-			System.out.println(saveFilename);
-			try {
-
-				multipartFile.transferTo(saveFilename);
-
-				attach.setFilename(multipartFile.getOriginalFilename());
-				attach.setUploadfile(saveFilename.toString());
-				attach.setUuid(uuid.toString());
-				attach.setUploadpath(uploadFolderPath);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			list.add(attach);
-		}
-
-		return list;
-	}
-
-	public PresidentVo uploadPresident(@RequestParam("uploadFile") MultipartFile[] uploadFile) {
-
-		String uploadFolderPath = getFolder();
-
-		File uploadPath = new File(uploadFolder, uploadFolderPath);
-
-		if (uploadPath.exists() == false) {
-			uploadPath.mkdirs();
-		}
-
-		MultipartFile presidentFile = uploadFile[0];
-
 		UUID uuid = UUID.randomUUID();
 
-		PresidentVo president = new PresidentVo();
+		String presidentOri = president.getOriginalFilename();
 
-		String presidentImg = presidentFile.getOriginalFilename();
+		presidentOri = uuid.toString() + "_" + presidentOri;
 
-		presidentImg = uuid.toString() + "_" + presidentImg;
+		File saveFile = new File(uploadPath, presidentOri);
 
-		File savePresident = new File(uploadPath, presidentImg);
+		BoardAttachVo presi = new BoardAttachVo();
 
 		try {
+			president.transferTo(saveFile);
 
-			presidentFile.transferTo(savePresident);
-
-			president.setFilename(presidentFile.getOriginalFilename());
-			president.setUploadfile(savePresident.toString());
-			president.setUuid(uuid.toString());
-			president.setUploadpath(uploadFolderPath);
+			presi.setUuid(uuid.toString());
+			presi.setUploadpath(uploadPath.toString());
+			presi.setCeoImg(president.getOriginalFilename());
+			presi.setUploadfile(saveFile.toString().substring(21));
+			presi.setFilename("null");
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		return president;
+		list.add(presi);
 
+		if (uploadFile[0].getSize() != 0) {
+			for (MultipartFile multipartFile : uploadFile) {
+
+				BoardAttachVo attach = new BoardAttachVo();
+
+				String uploadFilesname = multipartFile.getOriginalFilename();
+
+				uuid = UUID.randomUUID();
+
+				uploadFilesname = uuid.toString() + "_" + uploadFilesname;
+
+				File saveFilename = new File(uploadPath, uploadFilesname);
+				System.out.println(saveFilename);
+				try {
+
+					multipartFile.transferTo(saveFilename);
+
+					attach.setCeoImg("null");
+					attach.setFilename(multipartFile.getOriginalFilename());
+					attach.setUploadfile(saveFilename.toString().substring(21));
+					attach.setUuid(uuid.toString());
+					attach.setUploadpath(uploadFolderPath);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				list.add(attach);
+			}
+		}
+
+		return list;
 	}
 
 }

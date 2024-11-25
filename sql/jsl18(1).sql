@@ -29,7 +29,7 @@ create table president_img (
     constraint president_fk foreign key (bno) references tbl_board (bno) on delete CASCADE
 );
 
-alter table tbl_attach add president varchar2(100);
+alter table tbl_attach add ceoImg varchar2(100);
 alter table tbl_attach drop constraint tbl_attach_fk;
 alter table tbl_attach add constraint tbl_attach_fk foreign key (bno) REFERENCES tbl_board (bno) on delete CASCADE;
 select * from tbl_attach;
@@ -70,3 +70,5 @@ select
 		where rn > (1 - 1) * 5 ;
         
 select * from tbl_attach where bno = 143 and president = filename;
+
+select * from tbl_attach;

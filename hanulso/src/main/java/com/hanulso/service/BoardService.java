@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hanulso.domain.BoardAttachVo;
 import com.hanulso.domain.BoardVo;
-import com.hanulso.domain.PresidentVo;
 import com.hanulso.mapper.BoardAttachMapper;
 import com.hanulso.mapper.BoardMapper;
 import com.hanulso.util.Criteria;
@@ -45,13 +44,6 @@ public class BoardService {
 			List<BoardAttachVo> attachList = attachMapper.findByBno(board.getBno());
 
 			board.setAttachList(attachList);
-		}
-
-		for (BoardVo board : list) {
-
-			PresidentVo president = attachMapper.getPresident(board.getBno());
-
-			board.setPresident(president);
 		}
 
 		return list;
@@ -94,6 +86,10 @@ public class BoardService {
 		}
 
 		return result;
+	}
+
+	public List<BoardAttachVo> deleteFile(Long bno) {
+		return attachMapper.deleteFile(bno);
 	}
 
 }

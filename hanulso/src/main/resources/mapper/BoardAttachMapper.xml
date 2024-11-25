@@ -3,14 +3,14 @@
 <mapper namespace="com.hanulso.mapper.BoardAttachMapper">
 
 	<insert id="insert">
-		insert into tbl_attach (uuid, uploadpath, filename, uploadfile, president, bno) values (#{uuid}, #{uploadpath}, #{filename}, #{uploadfile}, #{president}, #{bno})
+		insert into tbl_attach (uuid, uploadpath, ceoImg, filename, uploadfile, bno) values (#{uuid}, #{uploadpath}, #{ceoImg}, #{filename}, #{uploadfile}, #{bno})
 	</insert>
 	
 	<select id="findByBno" resultType="com.hanulso.domain.BoardAttachVo">
 		select * from tbl_attach where bno = #{bno}
 	</select>
 	
-	<select id="getPresident" resultType="com.hanulso.domain.PresidentVo">
-		select * from president_img where bno = #{bno}
-	</select>	
+	<select id="deleteFile" resultType="com.hanulso.domain.BoardAttachVo">
+		select * from tbl_attach where bno = #{bno}
+	</select>
 </mapper>

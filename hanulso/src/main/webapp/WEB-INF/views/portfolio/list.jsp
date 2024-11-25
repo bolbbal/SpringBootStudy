@@ -57,14 +57,10 @@
 					<span class="date"><em><fmt:formatDate value="${regdate }" pattern="dd"/></em><fmt:formatDate value="${regdate }" pattern="yyyy.MM"/></span>
 					<div class="text_wrap">
 						<div class="img_wrap" style="position: relative;">
-								<c:set var="president" value="${list.president}"/>				
-								<img src="/photo/${president.uploadpath}/${president.uuid}_${president.filename}" alt="">
+							<c:set var="president" value="${list.attachList[0]}"/>				
+							<img src="/photo/${president.uploadfile}" alt="">
 						</div>
-						<%-- <div>
-							<c:forEach var="imglist" begin="${list.attachList}" varStatus="status">
-								<img src="/photo/${imglist.uploadpath}/${imglist.uuid}_${imglist.filename}" alt="">
-							</c:forEach>
-						</div> --%>
+						
 						<span class="info">
 							<span class="blue_text">No. ${num }</span>
 							<i class="bar"></i>

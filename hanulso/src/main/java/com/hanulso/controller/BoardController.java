@@ -1,5 +1,8 @@
 package com.hanulso.controller;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -13,7 +16,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hanulso.domain.BoardAttachVo;
 import com.hanulso.domain.BoardVo;
-import com.hanulso.domain.PresidentVo;
 import com.hanulso.service.BoardService;
 import com.hanulso.util.Criteria;
 import com.hanulso.util.FileUpload;
@@ -35,12 +37,12 @@ public class BoardController {
 	}
 
 	@PostMapping("/save.do")
-	public String saveBoard(BoardVo board, @RequestParam("uploadFile") MultipartFile[] uploadFile) {
+	public String saveBoard(BoardVo board, @RequestParam("president") MultipartFile president,
+			@RequestParam("uploadFile") MultipartFile[] uploadFile) {
 
-		if (uploadFile[0].getSize() != 0) {
-			PresidentVo president = fileUpload.uploadPresident(uploadFile);
-			List<BoardAttachVo> list = fileUpload.uploadFiles(uploadFile);
-			board.setPresident(president);
+		if (uploadFile != null || uploadFile[0].getSize() != 0) {
+			List<BoardAttachVo> list = fileUpload.uploadFiles(president, uploadFile);
+
 			board.setAttachList(list);
 		}
 
@@ -123,8 +125,26 @@ public class BoardController {
 		return "redirect:/port/list.do";
 	}
 
+	public void removeFile(List<BoardAttachVo> list) {
+		if (list == null || list.size() == 0) {
+			return;
+		}
+		list.forEach(attach -> {
+			try {
+				Path filename = Paths.get(
+						"C:upload/" + attach.getUploadpath() + "/" + attach.getUuid() + "_" + attach.getFilename());
+				Files.deleteIfExists(filename);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		});
+	}
+
 	@GetMapping("/delete.do")
 	public String deleteBoard(Long bno, RedirectAttributes rttr) { // RedirectAttributes : 일회성 속성 지정
+
+		List<BoardAttachVo> list = service.deleteFile(bno);
+		removeFile(list);
 
 		if (service.deleteBoard(bno) == true) {
 
