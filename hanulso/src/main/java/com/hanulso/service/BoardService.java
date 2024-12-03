@@ -62,7 +62,13 @@ public class BoardService {
 	}
 
 	public BoardVo getDetail(Long bno) {
-		return mapper.getDetail(bno);
+		List<BoardAttachVo> list = attachMapper.findByBno(bno);
+
+		BoardVo board = mapper.getDetail(bno);
+
+		board.setAttachList(list);
+
+		return board;
 	}
 
 	public BoardVo getNext(Long bno) {
@@ -74,7 +80,18 @@ public class BoardService {
 	}
 
 	public void updateBoard(BoardVo board) {
-		mapper.updateBoard(board);
+
+		boolean result = mapper.updateBoard(board) >= 1;
+
+		if (result && !(board.getAttachList() == null)) {
+
+			attachMapper.deleteAll(board.getBno());
+
+			board.getAttachList().forEach(attach -> {
+				attach.setBno(board.getBno());
+				attachMapper.insert(attach);
+			});
+		}
 	}
 
 	public boolean deleteBoard(Long bno) {
@@ -88,8 +105,8 @@ public class BoardService {
 		return result;
 	}
 
-	public List<BoardAttachVo> deleteFile(Long bno) {
-		return attachMapper.deleteFile(bno);
+	public List<BoardAttachVo> findByBno(Long bno) {
+		return attachMapper.findByBno(bno);
 	}
 
 }

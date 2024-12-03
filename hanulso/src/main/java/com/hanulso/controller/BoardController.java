@@ -118,7 +118,19 @@ public class BoardController {
 	}
 
 	@PostMapping("/modify.do")
-	public String modifyBoard(BoardVo board) {
+	public String modifyBoard(BoardVo board, @RequestParam("president") MultipartFile president,
+			@RequestParam("uploadFile") MultipartFile[] uploadFile) {
+
+		if (!president.isEmpty() && !uploadFile[0].isEmpty()) {
+
+			List<BoardAttachVo> dlist = service.findByBno(board.getBno());
+
+			removeFile(dlist);
+
+			List<BoardAttachVo> list = fileUpload.uploadFiles(president, uploadFile);
+
+			board.setAttachList(list);
+		}
 
 		service.updateBoard(board);
 
@@ -131,8 +143,9 @@ public class BoardController {
 		}
 		list.forEach(attach -> {
 			try {
-				Path filename = Paths.get(
-						"C:upload/" + attach.getUploadpath() + "/" + attach.getUuid() + "_" + attach.getFilename());
+				System.out.println("삭제");
+				Path filename = Paths.get("C:\\upload\\" + attach.getUploadfile());
+				System.out.println(filename);
 				Files.deleteIfExists(filename);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -143,7 +156,7 @@ public class BoardController {
 	@GetMapping("/delete.do")
 	public String deleteBoard(Long bno, RedirectAttributes rttr) { // RedirectAttributes : 일회성 속성 지정
 
-		List<BoardAttachVo> list = service.deleteFile(bno);
+		List<BoardAttachVo> list = service.findByBno(bno);
 		removeFile(list);
 
 		if (service.deleteBoard(bno) == true) {

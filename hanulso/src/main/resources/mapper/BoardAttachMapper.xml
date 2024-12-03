@@ -10,7 +10,11 @@
 		select * from tbl_attach where bno = #{bno}
 	</select>
 	
-	<select id="deleteFile" resultType="com.hanulso.domain.BoardAttachVo">
-		select * from tbl_attach where bno = #{bno}
-	</select>
+	<delete id="deleteAll">
+		delete tbl_attach where bno = #{bno}	
+	</delete>
+	
+	<update id="updateBoard">
+		update tbl_board set title = #{title}, content = #{content}, updatedate = sysdate where bno = #{bno}
+	</update>
 </mapper>

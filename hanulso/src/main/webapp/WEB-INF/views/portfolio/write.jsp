@@ -55,11 +55,11 @@
 					</tr>
 					<tr>
 						<th>대표이미지</th>
-						<td><input type="file" name="president"></td>
+						<td><input type="file" name="president" id="president"></td>
 					</tr>
 					<tr>
 						<th>첨부</th>
-						<td><input type="file" name="uploadFile" multiple></td>
+						<td><input type="file" name="uploadFile" id="uploadFile" multiple></td>
 					</tr>
 				</tbody>
 			</table>
@@ -78,7 +78,7 @@
 	$("#president").on("change", function() {
 		if($("#president").val() != "") {
 			var ext = $("#president").val().split('.').pop().toLowerCase();
-			if($.inArray(ext, ['gif', 'jpg', 'jpeg', 'png', 'JPG']) == -1) {
+			if($.inArray(ext, ['gif', 'jpg', 'jpeg', 'png', 'webp']) == -1) {
 				alert("이미지만 첨부 가능");
 				$("#president").val("");
 				return false;
@@ -89,7 +89,7 @@
 		$("#uploadFile").on("change", function() {
 			if($("#uploadFile").val() != "") {
 				var ext = $("#uploadFile").val().split('.').pop().toLowerCase();
-				if($.inArray(ext, ['gif', 'jpg', 'jpeg', 'png', 'JPG']) == -1) {
+				if($.inArray(ext, ['gif', 'jpg', 'jpeg', 'png', 'webp']) == -1) {
 					alert("이미지만 첨부 가능");
 					$("#uploadFile").val("");
 					return false;

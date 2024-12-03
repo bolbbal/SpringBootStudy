@@ -56,9 +56,9 @@ public class FileUpload {
 			president.transferTo(saveFile);
 
 			presi.setUuid(uuid.toString());
-			presi.setUploadpath(uploadPath.toString());
+			presi.setUploadpath(uploadFolderPath);
 			presi.setCeoImg(president.getOriginalFilename());
-			presi.setUploadfile(saveFile.toString().substring(21));
+			presi.setUploadfile(saveFile.toString().substring(10));
 			presi.setFilename("null");
 
 		} catch (Exception e) {
@@ -86,7 +86,7 @@ public class FileUpload {
 
 					attach.setCeoImg("null");
 					attach.setFilename(multipartFile.getOriginalFilename());
-					attach.setUploadfile(saveFilename.toString().substring(21));
+					attach.setUploadfile(saveFilename.toString().substring(10));
 					attach.setUuid(uuid.toString());
 					attach.setUploadpath(uploadFolderPath);
 

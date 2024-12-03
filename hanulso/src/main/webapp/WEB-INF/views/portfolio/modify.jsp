@@ -56,9 +56,32 @@
 						<td colspan="2"><textarea name="content">${board.content}</textarea></td>
 					</tr>
 					<tr>
+						<th>대표이미지</th>
+						<td><input type="file" name="president" id="president"></td>
+					</tr>
+					<tr>
+						<th>대표</th>
+						<td>
+							<c:forEach var="attach" items="${board.attachList }">
+								<c:if test="${attach.ceoImg != 'null' }">
+									<img src="/photo/${attach.uploadfile}" alt="" style = "width:100px; height: 100px;">
+								</c:if>
+							</c:forEach>
+						</td>
+					</tr>
+					<tr>
 						<th>첨부</th>
-						<td><input type="file" name="image">
-						<%-- <img src="/upload/${board.imgurl}" style = "width:100px;"></td> --%>
+						<td><input type="file" name="uploadFile" id="uploadFile" multiple="multiple"></td>
+					</tr>
+					<tr>
+						<th>이미지</th>
+						<td>
+						<c:forEach var="img" items="${board.attachList}">
+							<c:if test="${img.ceoImg == 'null'}">
+								<img src="/photo/${img.uploadfile}" style = "width:100px; height: 100px;">
+							</c:if>
+						</c:forEach>
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -73,6 +96,28 @@
 	</div>
 	<!-- end contents -->
 	<script>
+	$("#president").on("change", function() {
+		if($("#president").val() != "") {
+			var ext = $("#president").val().split('.').pop().toLowerCase();
+			if($.inArray(ext, ['gif', 'jpg', 'jpeg', 'png', 'webp']) == -1) {
+				alert("이미지만 첨부 가능");
+				$("#president").val("");
+				return false;
+			}
+		}
+	})
+	
+		$("#uploadFile").on("change", function() {
+			if($("#uploadFile").val() != "") {
+				var ext = $("#uploadFile").val().split('.').pop().toLowerCase();
+				if($.inArray(ext, ['gif', 'jpg', 'jpeg', 'png', 'webp']) == -1) {
+					alert("이미지만 첨부 가능");
+					$("#uploadFile").val("");
+					return false;
+				}
+			}
+		})
+	
 		function check() {
 			
 			if(portfolio.title.value=="") {

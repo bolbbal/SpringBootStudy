@@ -41,6 +41,7 @@
 							<li><a href="/mem/terms.do">회원가입</a></li>
 						</c:when>
 						<c:when test="${not empty login }">
+							<li class="first">${login.username} 님</li>
 							<li class="first"><a href="/mem/logout.do">로그아웃</a></li>
 							<li><a href="">마이페이지</a></li>
 						</c:when>

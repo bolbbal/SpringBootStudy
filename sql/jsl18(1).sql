@@ -72,3 +72,16 @@ select
 select * from tbl_attach where bno = 143 and president = filename;
 
 select * from tbl_attach;
+
+create table siteuser (
+    id number not null,
+    username varchar2(100) not null,
+    password varchar2(300) not null,
+    email varchar2(100) not null,
+    constraint siteuser_pk primary key (id)
+);
+
+create sequence siteuser_seq;
+
+insert into siteuser (id, username, password, email) values (siteuser_seq.nextval, 'aaabbb123', 'q1w2e3r4!', 'adkfljadf@email.com');
+commit;
