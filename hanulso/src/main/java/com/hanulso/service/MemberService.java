@@ -1,7 +1,10 @@
 package com.hanulso.service;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.hanulso.domain.MemberVo;
 import com.hanulso.mapper.MemberMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -10,11 +13,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MemberService {
 
-	private final MemberMapper member;
-	// private final password
+	private final MemberMapper mapper;
+	private final PasswordEncoder passwordEncoder;
 
 	public int usernameCheck(final String username) {
-		return member.countByUsername(username);
+		return mapper.countByUsername(username);
+	}
+
+	@Transactional
+	public void insertMember(MemberVo member) {
+
+		member.setPassword(passwordEncoder.encode(member.getPassword()));
+
+		mapper.insertMember(member);
+		System.out.println(member.getId());
+
 	}
 
 }

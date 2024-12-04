@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hanulso.domain.MemberVo;
 import com.hanulso.service.MemberService;
 import com.hanulso.util.MailSenderRunner;
 
@@ -65,5 +66,14 @@ public class MemberController {
 	public int usernameCheck(@RequestParam final String username) {
 
 		return service.usernameCheck(username);
+	}
+
+	@PostMapping("/access.do")
+	@ResponseBody
+	public String signUp(MemberVo member) {
+
+		service.insertMember(member);
+
+		return "회원가입 완료";
 	}
 }

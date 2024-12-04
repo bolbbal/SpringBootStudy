@@ -40,6 +40,7 @@
 			<div class="member_boxL">
                 <h2>개인회원</h2>
                 <form id="authForm" method="post" action="/mem/sign.do">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 <div class="login_form">
 	                    <div class="fl_clear">
 		                    <label for="email">이메일</label>
@@ -83,9 +84,15 @@
 			
 			var email = $("#email").val();
 			
+			var csrfToken = $('meta[name="_csrf"]').attr('content');
+			var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+			
 			$.ajax({
 				type:'post',
 				url:'/mem/mail.do',
+				beforeSend:function(xhr) {
+					xhr.setRequestHeader(csrfHeader, csrfToken);
+				},
 				data:{ email: email },
 				success:function(data) {
 					
@@ -98,7 +105,7 @@
 			})
 		}) 
 		
-		$("#authtication").change(function() {
+		$("#authtication").on("input", function() {
 			
 			incode = $("#authtication").val();
 			

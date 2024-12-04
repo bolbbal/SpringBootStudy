@@ -101,6 +101,9 @@
 		
 		$(function() {
 			
+			var csrfToken = $('meta[name="_csrf"]').attr('content');
+			var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+			
 			$(".location  .dropdown > a").on("click",function(e) {
 				e.preventDefault();
 				if($(this).next().is(":visible")) {
@@ -110,6 +113,7 @@
 					$(this).next().show();
 				}
 			});
+			
 			$("#username").blur(function() {
 				if(!$("#username").val()) {
 					$("#namemsg").html("<span style='color:#f00;'>이름입력</span>");
@@ -119,6 +123,9 @@
 				$.ajax({
 					type:'post',
 					url:'/mem/idcheck.do',
+					beforeSend:function(xhr) {
+						xhr.setRequestHeader(csrfHeader, csrfToken);
+					},
 					data:{username:$("#username").val()},
 					success:function(result) {
 						//사용 가능한 id : -1, 사용 불가능 : 1
@@ -183,6 +190,10 @@
 						$("#namemsg").html("<span style='color:#f00;'>아이디 입력</span>");
 						isValid = false;
 					}
+					if($("#password").val().trim() === '') {
+						$("#pw1msg").html("<span style='color:#f00;'>비밀번호 입력</span>");
+						isValid = false;
+					}
 					if($("#email").val().trim() === '') {
 						$("#emailmsg").html("<span style='color:#f00;'>이메일 입력</span>");
 						isValid = false;
@@ -191,17 +202,22 @@
 						$("#password").next(".guideTxt").html("<span style='color:#f00;'>비밀번호는 영문 대문자, 소문자, 숫자, 특수문자를 포함한 9~13자로 작성해 주십시오.</span>");
 						isValid = false;
 					}
+					
+					
+					
 					if(isValid) {
 						$.ajax({
 							type:"post",
-							data:{"name" : name,
+							beforeSend:function(xhr) {
+								xhr.setRequestHeader(csrfHeader, csrfToken);
+							},
+							data:{"username" : name,
 								"password" : password,
 								"email" : email
 								},
 							url:"/mem/access.do",
-							dataType:"json",
 							success:function(data) {
-								alert(data.msg);
+								alert(data);
 								location.href="/";
 							}, error:function() {
 								alert("통신 에러");

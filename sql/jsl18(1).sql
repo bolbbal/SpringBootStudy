@@ -85,3 +85,5 @@ create sequence siteuser_seq;
 
 insert into siteuser (id, username, password, email) values (siteuser_seq.nextval, 'aaabbb123', 'q1w2e3r4!', 'adkfljadf@email.com');
 commit;
+
+select * from siteuser;

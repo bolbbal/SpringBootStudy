@@ -10,6 +10,8 @@
   <meta name="Author" content="JSL">
   <meta name="Keywords" content="반응형홈페이지,  JAVA, JSP, PHP, 대전직업전문학교, 대전국비지원, 국비무료">
   <meta name="Description" content="응용SW개발자를 위한 반응형 홈페이지">
+  <meta name="_csrf" content="${_csrf.token}">
+  <meta name="_csrf_header" content="${_csrf.headerName}">
   <title>JSL인재개발원</title>
   <link href="/resources/css/font-awesome.min.css" rel="stylesheet">
   <link href="/resources/css/common.css" rel="stylesheet">

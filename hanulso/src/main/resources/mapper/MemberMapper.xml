@@ -12,4 +12,11 @@
 	<select id="countByUsername" parameterType="string" resultType="int">
 		select count(*) as count from siteuser where username = #{value}
 	</select>
+	
+	<insert id="insertMember">
+		<selectKey keyProperty="id" order="BEFORE" resultType="long">
+			select siteuser_seq.nextval from dual
+		</selectKey>
+		insert into siteuser (<include refid="memberColumns"/>) values (#{id}, #{username}, #{password}, #{email})
+	</insert>
 </mapper>
