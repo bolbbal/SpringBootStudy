@@ -16,4 +16,5 @@ public class BoardVo {
 	private LocalDate updatedate;
 
 	private List<BoardAttachVo> attachList;
+	private List<CommentVo> commentList;
 }

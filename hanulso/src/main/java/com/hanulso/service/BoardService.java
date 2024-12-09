@@ -7,8 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hanulso.domain.BoardAttachVo;
 import com.hanulso.domain.BoardVo;
+import com.hanulso.domain.CommentVo;
 import com.hanulso.mapper.BoardAttachMapper;
 import com.hanulso.mapper.BoardMapper;
+import com.hanulso.mapper.CommentMapper;
 import com.hanulso.util.Criteria;
 
 import lombok.RequiredArgsConstructor;
@@ -19,13 +21,15 @@ public class BoardService {
 
 	private final BoardMapper mapper;
 	private final BoardAttachMapper attachMapper;
+	private final CommentMapper commentMapper;
 
 	@Transactional
 	public void register(BoardVo board) {
 
 		mapper.insertSelectKey(board);
 
-		if (board.getAttachList() == null || board.getAttachList().size() <= 0) {
+		if (board.getAttachList() == null
+				|| board.getAttachList().size() <= 0) {
 			return;
 		} else {
 			board.getAttachList().forEach(attach -> {
@@ -41,9 +45,17 @@ public class BoardService {
 		List<BoardVo> list = mapper.getList(cri);
 
 		for (BoardVo board : list) {
-			List<BoardAttachVo> attachList = attachMapper.findByBno(board.getBno());
+			List<BoardAttachVo> attachList = attachMapper
+					.findByBno(board.getBno());
 
 			board.setAttachList(attachList);
+		}
+
+		for (BoardVo board : list) {
+			List<CommentVo> commentList = commentMapper
+					.getComment(board.getBno());
+
+			board.setCommentList(commentList);
 		}
 
 		return list;
@@ -63,10 +75,12 @@ public class BoardService {
 
 	public BoardVo getDetail(Long bno) {
 		List<BoardAttachVo> list = attachMapper.findByBno(bno);
+		List<CommentVo> comment = commentMapper.getComment(bno);
 
 		BoardVo board = mapper.getDetail(bno);
 
 		board.setAttachList(list);
+		board.setCommentList(comment);
 
 		return board;
 	}
@@ -107,6 +121,12 @@ public class BoardService {
 
 	public List<BoardAttachVo> findByBno(Long bno) {
 		return attachMapper.findByBno(bno);
+	}
+
+	public void insertComment(CommentVo comment) {
+		System.out.println(comment.getUsername());
+		commentMapper.insertComment(comment);
+		System.out.println(comment.getUsername());
 	}
 
 }

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="/header.jsp"%>
+<%@ include file="../header.jsp"%>
 	<!-- sub contents -->
 
 	<div class="sub_title">
@@ -39,16 +39,17 @@
 			<div class="member_boxL">
                 <h2>개인회원</h2>
                 <div class="login_form">
-                    <form name="login" id="login">
+                    <form name="login" id="login" method="post" >
+                    	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
 	                    <div class="fl_clear">
-		                    <label for="id">아이디</label>
-		                    <input name="id" id="id" type="text">
+		                    <label for="username">아이디</label>
+		                    <input name="username" id="username" type="text">
 	                    </div>
 	                    <div class="fl_clear">
-		                    <label for="pw">비밀번호</label>
-		                    <input name="pw" id="pw" type="password">
+		                    <label for="password">비밀번호</label>
+		                    <input name="password" id="password" type="password">
 	                    </div>
-                    <a class="btn_login btn_Blue" href="javascript:fn_login();">로그인</a>
+                    	<button type="submit" onclick="fn_login()">로그인</button>
                     <c:if test="${not empty msg }">
 						<p>${msg}</p>
 						<c:remove var="msg" scope="session"/>
@@ -66,23 +67,19 @@
 	
 		function fn_login() {
 			
-			if(login.id.value == "") {
+			if(login.username.value == "") {
 				alert("아이디 입력");
-				login.id.focus();
+				login.username.focus();
 				return false;
 			}
 			
-			if(login.pw.value == "") {
+			if(login.password.value == "") {
 				alert("비밀번호 입력");
-				login.pw.focus();
+				login.password.focus();
 				return false;
 			}
 			
-			var form = document.login;
-			
-			form.method = "post";
-			form.action = "/mem/loginpro.do";
-			form.submit();
+			return true;
 			<!-- <button class="btn_login btn_Blue" id="btn_login">로그인</button> -->
 			
 			/*$("#btn_login").on("click", function() {
@@ -105,4 +102,4 @@
 			});
 		});
 	</script>
-<%@ include file="/footer.jsp"%>
+<%@ include file="../footer.jsp"%>

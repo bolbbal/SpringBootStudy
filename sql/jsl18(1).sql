@@ -87,3 +87,27 @@ insert into siteuser (id, username, password, email) values (siteuser_seq.nextva
 commit;
 
 select * from siteuser;
+
+alter table siteuser add role varchar2(10) default 'ROLE_USER' not null;
+
+commit;
+
+update siteuser set role = 'ROLE_ADMIN' where username = 'admin';
+
+create table tbl_reply (
+    reply_bno number not null,
+    board_bno number not null,
+    username varchar2(100) not null,
+    content varchar2(200) not null,
+    regdate date default sysdate,
+    constraint tbl_reply_pk primary key (reply_bno),
+    constraint tbl_reply_fk foreign key (board_bno) references tbl_board (bno) on delete cascade
+);
+
+create sequence tbl_reply_seq;
+
+commit;
+
+select * from tbl_reply;
+
+select * from tbl_reply where board_bno = 206 order by reply_bno;

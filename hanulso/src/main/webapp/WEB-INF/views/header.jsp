@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <!doctype html>
 <html lang="ko">
  <head>
@@ -37,17 +38,27 @@
 			</nav>
 			<nav class="top_right">
 				<ul>
-					<c:choose>
-						<c:when test="${empty login }">
-							<li class="first"><a href="/mem/login.do">로그인</a></li>
+					<%-- <c:choose>
+						<c:when test="${empty member }">
+							<li class="first"><a href="/mem/login">로그인</a></li>
 							<li><a href="/mem/terms.do">회원가입</a></li>
 						</c:when>
-						<c:when test="${not empty login }">
-							<li class="first">${login.username} 님</li>
-							<li class="first"><a href="/mem/logout.do">로그아웃</a></li>
+						<c:when test="${not empty member }">
+							<li class="first">${member.username} 님</li>
+							<li class="first"><a href="/mem/logout">로그아웃</a></li>
 							<li><a href="">마이페이지</a></li>
 						</c:when>
-					</c:choose>
+					</c:choose> --%>
+					<sec:authorize access="isAnonymous()">
+						<li class="first"><a href="/mem/login">로그인</a></li>
+						<li><a href="/mem/terms.do">회원가입</a></li>
+					</sec:authorize>
+					<sec:authorize access="isAuthenticated()">
+						<sec:authentication property="principal" var="principal"/>
+						<li class="first">${principal.username} 님</li>
+						<li class="first"><a href="/mem/logout">로그아웃</a></li>
+						<li><a href="">마이페이지</a></li>
+					</sec:authorize>
 				</ul>
 			</nav>
 			

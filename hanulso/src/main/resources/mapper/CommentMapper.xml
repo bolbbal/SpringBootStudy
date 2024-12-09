@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanulso.mapper.CommentMapper">
+	<sql id="sqlname">
+		reply_bno, 
+		board_bno, 
+		username, 
+		content
+	</sql>
+
+	<insert id="insertComment">
+		<selectKey keyProperty="reply_bno" order="BEFORE" resultType="long">
+			select tbl_reply_seq.nextval from dual
+		</selectKey>
+		insert into tbl_reply (<include refid="sqlname"/>) values (#{reply_bno}, #{board_bno}, #{username}, #{content})
+	</insert>
+	
+	<select id="getComment" resultType="com.hanulso.domain.CommentVo">
+		select * from tbl_reply where board_bno = #{value} order by reply_bno
+	</select>
+</mapper>

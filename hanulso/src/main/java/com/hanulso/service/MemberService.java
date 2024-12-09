@@ -30,4 +30,16 @@ public class MemberService {
 
 	}
 
+	public MemberVo loginCheck(String username, String password) {
+
+		MemberVo member = mapper.loginCheck(username);
+		String encodePassword = (member == null) ? "" : member.getPassword();
+		
+		if (member == null || passwordEncoder.matches(password, encodePassword) == false) {
+			return null;
+		} 
+
+		return member;
+	}
+
 }

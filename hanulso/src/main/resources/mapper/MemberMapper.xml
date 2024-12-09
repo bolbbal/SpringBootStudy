@@ -3,10 +3,10 @@
 <mapper namespace="com.hanulso.mapper.MemberMapper">
 
 	<sql id="memberColumns">
-		id,
-		username,
-		password,
-		email
+		id, 
+		username, 
+		password, 
+		email 
 	</sql>
 	
 	<select id="countByUsername" parameterType="string" resultType="int">
@@ -19,4 +19,8 @@
 		</selectKey>
 		insert into siteuser (<include refid="memberColumns"/>) values (#{id}, #{username}, #{password}, #{email})
 	</insert>
+	
+	<select id="loginCheck" parameterType="string" resultType="com.hanulso.domain.MemberVo">
+		select * from siteuser where username = #{username}
+	</select>
 </mapper>

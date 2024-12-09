@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hanulso.domain.BoardAttachVo;
 import com.hanulso.domain.BoardVo;
+import com.hanulso.domain.CommentVo;
 import com.hanulso.service.BoardService;
 import com.hanulso.util.Criteria;
 import com.hanulso.util.FileUpload;
@@ -32,16 +34,20 @@ public class BoardController {
 	private final FileUpload fileUpload;
 
 	@GetMapping("/write.do")
+	// @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
+	@PreAuthorize("isAuthenticated()")
 	public String writeBoardForm() {
 		return "/portfolio/write";
 	}
 
 	@PostMapping("/save.do")
-	public String saveBoard(BoardVo board, @RequestParam("president") MultipartFile president,
+	public String saveBoard(BoardVo board,
+			@RequestParam("president") MultipartFile president,
 			@RequestParam("uploadFile") MultipartFile[] uploadFile) {
 
 		if (uploadFile != null || uploadFile[0].getSize() != 0) {
-			List<BoardAttachVo> list = fileUpload.uploadFiles(president, uploadFile);
+			List<BoardAttachVo> list = fileUpload.uploadFiles(president,
+					uploadFile);
 
 			board.setAttachList(list);
 		}
@@ -50,18 +56,19 @@ public class BoardController {
 		return "redirect:/port/list.do";
 	}
 
-//	@GetMapping("/list.do")
-//	public String listBoard(Model model) {
-//		List<BoardVo> list = service.getList();
-//		Integer count = service.getBoardCount();
-//		
-//		model.addAttribute("list", list);
-//		model.addAttribute("count", count);
-//		
-//		return "/portfolio/list";
-//	}
+	// @GetMapping("/list.do")
+	// public String listBoard(Model model) {
+	// List<BoardVo> list = service.getList();
+	// Integer count = service.getBoardCount();
+	//
+	// model.addAttribute("list", list);
+	// model.addAttribute("count", count);
+	//
+	// return "/portfolio/list";
+	// }
 
-	// 받은 값을 사용하지 않고 넘겨주는 용도로만 쓸 때는 매개변수로 (@ModelAttribute("속성명") 변수타입 변수명) 을 쓸 수
+	// 받은 값을 사용하지 않고 넘겨주는 용도로만 쓸 때는 매개변수로 (@ModelAttribute("속성명") 변수타입 변수명) 을 쓸
+	// 수
 	// 있다.
 
 	@GetMapping("/list.do")
@@ -118,7 +125,8 @@ public class BoardController {
 	}
 
 	@PostMapping("/modify.do")
-	public String modifyBoard(BoardVo board, @RequestParam("president") MultipartFile president,
+	public String modifyBoard(BoardVo board,
+			@RequestParam("president") MultipartFile president,
 			@RequestParam("uploadFile") MultipartFile[] uploadFile) {
 
 		if (!president.isEmpty() && !uploadFile[0].isEmpty()) {
@@ -127,7 +135,8 @@ public class BoardController {
 
 			removeFile(dlist);
 
-			List<BoardAttachVo> list = fileUpload.uploadFiles(president, uploadFile);
+			List<BoardAttachVo> list = fileUpload.uploadFiles(president,
+					uploadFile);
 
 			board.setAttachList(list);
 		}
@@ -144,7 +153,8 @@ public class BoardController {
 		list.forEach(attach -> {
 			try {
 				System.out.println("삭제");
-				Path filename = Paths.get("C:\\upload\\" + attach.getUploadfile());
+				Path filename = Paths
+						.get("C:\\upload\\" + attach.getUploadfile());
 				System.out.println(filename);
 				Files.deleteIfExists(filename);
 			} catch (Exception e) {
@@ -154,7 +164,9 @@ public class BoardController {
 	}
 
 	@GetMapping("/delete.do")
-	public String deleteBoard(Long bno, RedirectAttributes rttr) { // RedirectAttributes : 일회성 속성 지정
+	public String deleteBoard(Long bno, RedirectAttributes rttr) { // RedirectAttributes
+																	// : 일회성 속성
+																	// 지정
 
 		List<BoardAttachVo> list = service.findByBno(bno);
 		removeFile(list);
@@ -168,6 +180,14 @@ public class BoardController {
 			rttr.addFlashAttribute("msg", "삭제실패");
 			return "redirect:/port/list.do";
 		}
+	}
+
+	@PostMapping("/commentSave.do")
+	public String commentSave(CommentVo comment) {
+		service.insertComment(comment);
+
+		return "redirect:/port/view.do?" + comment.getBoard_bno();
+
 	}
 
 }

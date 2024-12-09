@@ -98,7 +98,14 @@
 			<c:if test="${page.next }">
 				<a href="?pageNum=${page.realEnd}<c:if test="${page.cri.type != null}">?&type=${page.cri.type }&keyword=${page.cri.keyword}</c:if>"><i class="fa  fa-angle-double-right"></i></a>
 			</c:if>
-			<a href="/port/write.do" class="btn_write">글쓰기</a>
+			
+			<%-- <sec:authorize access="hasRole('ADMIN')">
+				<a href="/port/write.do" class="btn_write">글쓰기</a>
+			</sec:authorize> --%>
+			
+			<sec:authorize access="isAuthenticated()">
+				<a href="/port/write.do" class="btn_write">글쓰기</a>
+			</sec:authorize>
 		</div>
 	  </div>
 	</div>

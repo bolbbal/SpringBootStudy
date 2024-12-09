@@ -11,4 +11,5 @@ public interface MemberMapper {
 
 	public void insertMember(MemberVo member);
 
+	public MemberVo loginCheck(String username);
 }
