@@ -3,15 +3,20 @@ package com.hanulso.controller;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -103,15 +108,22 @@ public class BoardController {
 	}
 
 	@GetMapping("/view.do")
-	public String viewBoard(Long bno, Model model) {
+	public String viewBoard(Long bno, Model model,
+			Principal principal/* 로그인 정보 */) {
 
 		BoardVo board = service.getDetail(bno);
 		BoardVo next = service.getNext(bno);
 		BoardVo prev = service.getPrev(bno);
+		int comment_count = service.countComment(bno);
 
 		model.addAttribute("view", board);
 		model.addAttribute("next", next);
 		model.addAttribute("prev", prev);
+		model.addAttribute("commentCount", comment_count);
+
+		if (principal != null) {
+			model.addAttribute("username", principal.getName());
+		}
 
 		return "/portfolio/view";
 	}
@@ -186,8 +198,27 @@ public class BoardController {
 	public String commentSave(CommentVo comment) {
 		service.insertComment(comment);
 
-		return "redirect:/port/view.do?" + comment.getBoard_bno();
+		return "redirect:/port/view.do?bno=" + comment.getBoard_bno();
 
 	}
+
+	@PostMapping("/commentModify.do")
+	public String commentModify(@ModelAttribute CommentVo comment) {
+		service.updateComment(comment);
+
+		return "redirect:/port/view.do?bno=" + comment.getBoard_bno();
+	}
+
+	@PostMapping("/commentDelete.do")
+	@ResponseBody
+	public Map<String, Object> commentDelete(@RequestParam Long reply_bno, @RequestParam Long board_bno) {
+	    service.deleteComment(reply_bno); // 댓글 삭제 처리
+	    System.out.println(1);
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("status", "success");
+	    response.put("redirectUrl", "/port/view.do?bno=" + board_bno);
+	    return response; // JSON 형태로 응답
+	}
+
 
 }

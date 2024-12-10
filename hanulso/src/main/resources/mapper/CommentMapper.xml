@@ -18,4 +18,16 @@
 	<select id="getComment" resultType="com.hanulso.domain.CommentVo">
 		select * from tbl_reply where board_bno = #{value} order by reply_bno
 	</select>
+	
+	<select id="CommentCount" resultType="int">
+		select count(*) as count from tbl_reply where board_bno = #{value}
+	</select>
+	
+	<update id="commentModify">
+		update tbl_reply set content = #{content} where reply_bno = #{reply_bno}
+	</update>
+	
+	<delete id="commentDelete">
+		delete from tbl_reply where reply_bno = #{reply_bno}
+	</delete>
 </mapper>

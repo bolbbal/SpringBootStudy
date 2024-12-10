@@ -129,4 +129,16 @@ public class BoardService {
 		System.out.println(comment.getUsername());
 	}
 
+	public int countComment(Long board_bno) {
+		return commentMapper.CommentCount(board_bno);
+	}
+
+	public void updateComment(CommentVo comment) {
+		commentMapper.commentModify(comment);
+	}
+	
+	public void deleteComment(Long reply_bno) {
+		commentMapper.commentDelete(reply_bno);
+	}
+
 }
